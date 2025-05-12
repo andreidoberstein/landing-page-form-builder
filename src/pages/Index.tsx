@@ -10,6 +10,7 @@ import ContactForm from "@/components/ContactForm";
 import ExtrasForm from "@/components/ExtrasForm";
 import SubmitSuccess from "@/components/SubmitSuccess";
 import { useToast } from "@/components/ui/use-toast";
+import { submitForm } from "@/lib/api/form";
 
 const STEPS = [
   "Informações Pessoais",
@@ -71,13 +72,15 @@ const Index = () => {
     setFormData(prev => ({ ...prev, ...fields }));
   }
 
-  function next() {
+  async function next() {
     if (currentStep < STEPS.length - 1) {
       setCurrentStep(prev => prev + 1);
       window.scrollTo(0, 0);
     } else {
       // Submit the form
       console.log("Form data:", formData);
+      const response = await submitForm(formData)
+      console.log(response)
       toast({
         title: "Formulário enviado!",
         description: "Suas informações foram recebidas com sucesso.",
